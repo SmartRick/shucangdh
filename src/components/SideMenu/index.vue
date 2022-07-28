@@ -2,29 +2,29 @@
   <div class="sidebar">
     <ul class="sidebar-list">
       <li class="sidebar-item sidebar-item-select">
-        <icon class="el-icon-pie-chart sidebar-item-icon-select"></icon>
+        <i class="el-icon-pie-chart sidebar-item-icon-select"></i>
         <span class="sidebar-item-title-select">数藏平台导航</span>
 <!--        <icon class="el-icon-arrow-down sidebar-item-down"></icon>-->
       </li>
 
       <li class="sidebar-item">
-        <icon class="el-icon-pie-chart sidebar-item-icon"></icon>
+        <i class="el-icon-pie-chart sidebar-item-icon"></i>
         <span class="sidebar-item-title">首发活动日历</span>
       </li>
 
       <li class="sidebar-item">
-        <icon class="el-icon-pie-chart sidebar-item-icon"></icon>
+        <i class="el-icon-pie-chart sidebar-item-icon"></i>
         <span class="sidebar-item-title">NFT新闻资讯</span>
       </li>
 
       <li class="sidebar-item">
-        <icon class="el-icon-pie-chart sidebar-item-icon"></icon>
+        <i class="el-icon-pie-chart sidebar-item-icon"></i>
         <span class="sidebar-item-title">NFT合成工具</span>
 
       </li>
 
       <li class="sidebar-item">
-        <icon class="el-icon-pie-chart sidebar-item-icon"></icon>
+        <i class="el-icon-pie-chart sidebar-item-icon"></i>
         <span class="sidebar-item-title">数藏平台收录</span>
       </li>
     </ul>
