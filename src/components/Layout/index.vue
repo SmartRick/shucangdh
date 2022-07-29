@@ -1,149 +1,49 @@
 <template>
   <el-container class="main-container">
-    <el-aside width="260px">
-      <div>
-        <vs-sidebar
-            absolute
-            v-model="active"
-            open
-        >
-          <template #logo>
-            <!-- ...img logo -->
-          </template>
-          <vs-sidebar-item id="home">
-            <template #icon>
-              <i class='bx el-icon-delete-solid'></i>
-            </template>
-            Home
-          </vs-sidebar-item>
-          <vs-sidebar-item id="market">
-            <template #icon>
-              <i class='bx bx-grid-alt'></i>
-            </template>
-            Market Overview
-          </vs-sidebar-item>
-          <vs-sidebar-item id="Music">
-            <template #icon>
-              <i class='bx bxs-music'></i>
-            </template>
-            Music
-          </vs-sidebar-item>
-          <vs-sidebar-group>
-            <template #header>
-              <vs-sidebar-item arrow>
-                <template #icon>
-                  <i class='bx bx-group'></i>
-                </template>
-                Social media
-              </vs-sidebar-item>
-            </template>
-
-            <vs-sidebar-item id="Instagram">
-              <template #icon>
-                <i class='bx bxl-instagram'></i>
-              </template>
-              Instagram
-            </vs-sidebar-item>
-            <vs-sidebar-item id="twitter">
-              <template #icon>
-                <i class='bx bxl-twitter'></i>
-              </template>
-              Twitter
-            </vs-sidebar-item>
-            <vs-sidebar-item id="Facebook">
-              <template #icon>
-                <i class='bx bxl-facebook'></i>
-              </template>
-              Facebook
-            </vs-sidebar-item>
-          </vs-sidebar-group>
-          <vs-sidebar-group>
-            <template #header>
-              <vs-sidebar-item arrow>
-                <template #icon>
-                  <i class='bx bx-code-alt'></i>
-                </template>
-                Coding
-              </vs-sidebar-item>
-            </template>
-
-            <vs-sidebar-item id="github">
-              <template #icon>
-                <i class='bx bxl-github'></i>
-              </template>
-              Github
-            </vs-sidebar-item>
-            <vs-sidebar-item id="codepen">
-              <template #icon>
-                <i class='bx bxl-codepen'></i>
-              </template>
-              Codepen
-            </vs-sidebar-item>
-            <vs-sidebar-item id="discord">
-              <template #icon>
-                <i class='bx bxl-discord'></i>
-              </template>
-              Discord
-            </vs-sidebar-item>
-            <vs-sidebar-item id="Javascript">
-              <template #icon>
-                <i class='bx bxl-javascript'></i>
-              </template>
-              Javascript
-            </vs-sidebar-item>
-            <vs-sidebar-item id="git">
-              <template #icon>
-                <i class='bx bxl-git'></i>
-              </template>
-              Git
-            </vs-sidebar-item>
-          </vs-sidebar-group>
-          <vs-sidebar-item id="donate">
-            <template #icon>
-              <i class='bx bxs-donate-heart'></i>
-            </template>
-            Donate
-          </vs-sidebar-item>
-          <vs-sidebar-item id="drink">
-            <template #icon>
-              <i class='bx bx-drink'></i>
-            </template>
-            Drink
-          </vs-sidebar-item>
-          <vs-sidebar-item id="shopping">
-            <template #icon>
-              <i class='bx bxs-shopping-bags'></i>
-            </template>
-            Shopping
-          </vs-sidebar-item>
-          <vs-sidebar-item id="chat">
-            <template #icon>
-              <i class='bx bx-chat'></i>
-            </template>
-            Chat
-          </vs-sidebar-item>
-          <template #footer>
-            <vs-row justify="space-between">
-              <vs-avatar>
-                <img src="/avatars/avatar-5.png" alt="">
-              </vs-avatar>
-
-              <vs-avatar badge-color="danger" badge-position="top-right">
-                <i class='bx bx-bell'></i>
-
-                <template #badge>
-                  28
-                </template>
-              </vs-avatar>
-            </vs-row>
-          </template>
-        </vs-sidebar>
-      </div>
-
+    <el-aside width="200px" class="side-box">
+      <div class="logo">LOGO</div>
+      <el-menu class="side-menu" :default-openeds="['1']" unique-opened>
+        <el-submenu index="1">
+          <template slot="title"><i class="el-icon-message"></i>数藏平台导航</template>
+          <el-menu-item class="side-menu-item" index="1-1">平台大全</el-menu-item>
+          <el-menu-item index="1-2">数藏工具</el-menu-item>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title"><i class="el-icon-menu"></i>首发活动日历</template>
+          <el-menu-item-group>
+            <template slot="title">分组一</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="分组2">
+            <el-menu-item index="2-3">选项3</el-menu-item>
+          </el-menu-item-group>
+          <el-submenu index="2-4">
+            <template slot="title">选项4</template>
+            <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+          </el-submenu>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title"><i class="el-icon-setting"></i>NFT新闻资讯</template>
+        </el-submenu>
+        <el-submenu index="4">
+          <template slot="title"><i class="el-icon-setting"></i>NFT合成工具</template>
+        </el-submenu>
+        <el-submenu index="5">
+          <template slot="title"><i class="el-icon-setting"></i>平台收录</template>
+        </el-submenu>
+      </el-menu>
     </el-aside>
+
     <el-main class="main-content">
       <router-view></router-view>
     </el-main>
+    <div class="background-container">
+      <img class="ball-item" src="../../assets/images/bell_1.png" alt=""/>
+      <img class="ball-item" src="../../assets/images/bell_2.png" alt=""/>
+      <img class="ball-item" src="../../assets/images/bell_3.png" alt=""/>
+      <img class="ball-item" src="../../assets/images/bell_4.png" alt=""/>
+    </div>
   </el-container>
 </template>
 
@@ -168,12 +68,124 @@ export default {
   background: #E5ECF0;
 }
 
+.main-content {
+  position: relative;
+  z-index: 2;
+}
+
+.side-box {
+  position: relative;
+  z-index: 1;
+  border-radius: 0px 20px 20px 0px;
+  //opacity: 0.4;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(235px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+
+  .logo {
+    height: 50px;
+    width: 50px;
+    margin: 70px 0 50px 0;
+    border-radius: 50%;
+    background-color: #3bc6fc;
+    text-align: center;
+    line-height: 50px;
+    color: white;
+  }
+
+  @sub-menu-height: 38px;
+
+  .side-menu {
+    width: 190px;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+
+    /deep/ .el-menu {
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    /deep/ .el-submenu {
+      margin: 16px 0;
+      .el-submenu__icon-arrow{
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+
+    /deep/ .el-submenu .el-submenu__title {
+      //width: 200px;
+      height: @sub-menu-height;
+      line-height: @sub-menu-height;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 8px;
+      color: #565656;
+
+      i {
+        color: #565656;
+      }
+    }
+
+    /deep/ .is-opened > .el-submenu__title {
+      background: linear-gradient(180deg, #89B0FF 0%, #89B0FF 0%, #306EEB 100%, #306EEB 100%);
+      box-shadow: 0px 4px 19px 0px rgba(55, 115, 237, 0.42);
+      color: #FFFFFF;
+
+      i {
+        color: #FFFFFF;
+      }
+    }
+
+    .side-menu-item {
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+
+  }
+
+
+}
+
 .background-container {
   position: absolute;
-  left: 0px;
-  top: 0px;
-  height: 100%;
-  width: 100%;
-  background: #E5ECF0;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #e0eff6;
+  overflow: hidden;
 }
+
+.background-container > .ball-item {
+  position: absolute;
+}
+
+//绿色
+.background-container > .ball-item:nth-child(1) {
+  top: -544px;
+  left: -72px;
+}
+
+//蓝色
+.background-container > .ball-item:nth-child(2) {
+  top: 96px;
+  right: -270px;
+}
+
+//黄色
+.background-container > .ball-item:nth-child(3) {
+  top: 74px;
+  left: -368px;
+}
+
+//红色
+.background-container > .ball-item:nth-child(4) {
+  top: -614px;
+  right: -585px;
+}
+
 </style>

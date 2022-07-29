@@ -86,7 +86,7 @@ export default {
     color: #6C6868;
     display: flex;
     gap: 8px;
-    justify-content: end;
+    justify-content: flex-end;
     padding: 8px 15px 0 15px;
 
     icon {
@@ -120,17 +120,20 @@ export default {
 
     .client-h5 {
       background: #59CB8C;
-      box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #CDF4DF;
+      //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #CDF4DF;
+      box-shadow: 0px 4px 12px 0px rgba(89, 203, 140, 0.4);
     }
 
     .client-web {
       background: #70C2F7;
-      box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #cde1f4;
+      //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #cde1f4;
+      box-shadow: 0px 4px 12px 0px rgba(112, 194, 247, 0.57);
     }
 
     .client-app {
       background: #FF9F43;
-      box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #f4e4cd;
+      box-shadow: 0px 4px 12px 0px rgba(247, 216, 112, 0.57);
+      //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #f4e4cd;
     }
 
     .client-item {
