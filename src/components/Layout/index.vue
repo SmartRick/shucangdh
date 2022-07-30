@@ -8,30 +8,20 @@
           <el-menu-item class="side-menu-item" index="1-1">平台大全</el-menu-item>
           <el-menu-item index="1-2">数藏工具</el-menu-item>
         </el-submenu>
-        <el-submenu index="2">
+        <el-menu-item index="2">
           <template slot="title"><i class="el-icon-menu"></i>首发活动日历</template>
-          <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="2-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="2-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="2-4-1">选项4-1</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-submenu index="3">
+        </el-menu-item>
+        <el-menu-item index="3">
           <template slot="title"><i class="el-icon-setting"></i>NFT新闻资讯</template>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title"><i class="el-icon-setting"></i>NFT合成工具</template>
-        </el-submenu>
-        <el-submenu index="5">
-          <template slot="title"><i class="el-icon-setting"></i>平台收录</template>
-        </el-submenu>
+        </el-menu-item>
+        <el-menu-item index="4">
+          <i class="el-icon-setting"></i>
+          <span slot="title">NFT合成工具</span>
+        </el-menu-item>
+        <el-menu-item index="5">
+          <i class="el-icon-setting"></i>
+          <span slot="title">平台收录</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 
@@ -106,10 +96,16 @@ export default {
     /deep/ .el-menu {
       background-color: rgba(0, 0, 0, 0);
     }
+    ///deep/ .el-menu >.is-active{
+    //  background: linear-gradient(180deg, #89B0FF 0%, #89B0FF 0%, #306EEB 100%, #306EEB 100%);
+    //  box-shadow: 0px 4px 19px 0px rgba(55, 115, 237, 0.42);
+    //  color: #FFFFFF;
+    //}
 
     /deep/ .el-submenu {
       margin: 16px 0;
-      .el-submenu__icon-arrow{
+
+      .el-submenu__icon-arrow {
         font-size: 14px;
         font-weight: bold;
       }
