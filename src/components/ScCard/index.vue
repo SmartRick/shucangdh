@@ -3,27 +3,40 @@
     <div class="sc-sj">
       <div class="sj-item">
         <icon class="el-icon-view"/>
-        <span class="sj-data">{{ scData.click_num }}</span>
+        <span class="sj-data">{{ scData.browseNum }}</span>
       </div>
       <div class="sj-item">
         <icon class="iconfont icon-xihuan"/>
-        <span class="sj-data">{{ scData.lick_num }}</span>
+        <span class="sj-data">{{ scData.lickNum }}</span>
       </div>
     </div>
     <div class="sc-header">
-      <img :src="scData.logo_img" :alt="scData.title">
+      <a :href="scData.tagList[0].link">
+        <el-avatar shape="square" fit="cover" :src="scData.coverImg">
+          <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
+        </el-avatar>
+<!--        <img :src="scData.coverImg" :alt="scData.name">-->
+      </a>
       <div>
-        <h2 class="sc-title">{{ scData.title }}</h2>
+        <a class="sc-title" :href="scData.tagList[0].link">{{ scData.name }}</a>
         <div class="client-box">
-          <span v-for="(client,index) in scData.tag" :key="index" class="client-item"
-                :class="clientColor(client)">{{ client }}</span>
-<!--          <span class="client-item client-h5">H5</span>-->
-<!--          <span class="client-item client-web">WEB</span>-->
+          <a v-for="(client,index) in scData.tagList" :key="index" :href="client.link">
+            <span class="client-item"
+                           :class="clientColor(client.tagName)">{{ client.tagName }}</span>
+          </a>
+          <!--          <span class="client-item client-h5">H5</span>-->
+          <!--          <span class="client-item client-web">WEB</span>-->
         </div>
       </div>
     </div>
     <p class="sc-desc">{{ scData.remark }}</p>
-    <span class="sc-blockchain">{{ scData.blockchain }}</span>
+
+      <span class="sc-blockchain">
+        <a :href="scData.blockchainList[0].link">{{
+          scData.blockchainList.length > 0 ? scData.blockchainList[0].blockchain : '未知'
+        }}</a></span>
+
+
   </div>
 </template>
 
@@ -72,13 +85,21 @@ export default {
 
 <style lang="less" scoped>
 @sj-icon: 10px;
+@sj-card-width: 285px;
+@sj-card-height: 165px;
+.sc-card:hover {
+  box-shadow: 0px 28px 25px -15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
 .sc-card {
-  width: 285px;
-  height: 160px;
+  width: @sj-card-width;
+  height: @sj-card-height;
   border-radius: 18px;
   background: #FFFFFF;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.07);
   position: relative;
+  transition: all 0.3s ease-in-out;
 
   .sc-sj {
     font-size: @sj-icon;
@@ -103,18 +124,27 @@ export default {
       letter-spacing: 0em;
       color: #3D3D3D;
     }
-
-    img {
+    .el-avatar{
       float: left;
-      width: 55px;
-      height: 55px;
-      border-radius: 18px;
       margin: 0 10px;
+      width: 55px;
+        height: 55px;
+      //border-radius: 18px;
+
     }
+    //img {
+    //  float: left;
+    //  width: 55px;
+    //  height: 55px;
+    //  border-radius: 18px;
+    //  margin: 0 10px;
+    //}
 
     .client-box {
       margin-top: 8px;
+      width: 200px;
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
     }
 
@@ -138,7 +168,9 @@ export default {
 
     .client-item {
       display: inline-block;
-      width: 45px;
+      //width: 45px;
+      box-sizing: border-box;
+      padding: 0 4px;
       height: 20px;
       border-radius: 10px;
 
@@ -150,7 +182,14 @@ export default {
   }
 
   .sc-desc {
-    padding: 0 10px;
+    height: 40px;
+    padding: 0 15px;
+    overflow: hidden;
+    //white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
     font-size: 14px;
     color: #3D3D3D;
   }
@@ -160,7 +199,10 @@ export default {
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 78px;
+    padding: 0 15px;
+    max-width: @sj-card-width;
+    box-sizing: border-box;
+    //width: 78px;
     height: 26px;
     border-radius: 14px 0px 18px 0px;
     background: #34A1FA;

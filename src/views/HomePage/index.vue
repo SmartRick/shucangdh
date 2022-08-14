@@ -12,35 +12,35 @@
     </div>
     <div class="search-bar">
       <form class="search-form" action="">
-        <input class="search-input" type="text" v-model="searchText" placeholder="寻找属于你的数字藏品">
+        <input class="search-input" type="text" v-model="queryParams.name" placeholder="寻找属于你的数字藏品">
         <i class="el-icon-search"></i>
         <div class="filter-select-bar">
           <span class="filter-text">筛选：</span>
           <div class="filter-select-box">
-            <el-select class="filter-select" clearable v-model="filterBlockChain" placeholder="区块链" size="mini">
+            <el-select class="filter-select" clearable v-model="queryParams.blockchainList[0]" placeholder="区块链" size="mini">
               <el-option
                   v-for="item in blockchainTypes"
                   :key="item.id"
-                  :label="item.blockchainName"
+                  :label="item.blockchain"
                   :value="item.id">
               </el-option>
             </el-select>
 
-            <el-select class="filter-select" clearable v-model="filterClientType" placeholder="客户端" size="mini">
+            <el-select class="filter-select" clearable v-model="queryParams.tagName" placeholder="客户端" size="mini">
               <el-option
-                  v-for="item in blockchainTypes"
-                  :key="item.id"
-                  :label="item.blockchainName"
-                  :value="item.id">
+                  v-for="item in clientNames"
+                  :key="item"
+                  :label="item"
+                  :value="item">
               </el-option>
             </el-select>
 
-            <el-select class="filter-select" clearable v-model="filterMarketModel" placeholder="市场模式" size="mini">
+            <el-select class="filter-select" clearable v-model="queryParams.marketModel" placeholder="市场模式" size="mini">
               <el-option
-                  v-for="item in blockchainTypes"
+                  v-for="item in marketModels"
                   :key="item.id"
-                  :label="item.blockchainName"
-                  :value="item.id">
+                  :label="item.name"
+                  :value="item.code">
               </el-option>
             </el-select>
           </div>
@@ -49,106 +49,81 @@
     </div>
 
     <div class="sc-card-list">
-      <sc-card v-for="item in scDataList" :key="item.id" :sc-data="item"></sc-card>
+      <sc-card v-for="item in platformList" :key="item.id" :sc-data="item"></sc-card>
     </div>
   </div>
 </template>
 
 <script>
+import platformApi from '@/api/api_shucang_platform'
+import blockchainApi from '@/api/api_blockchain'
+import tagApi from '@/api/api_tag'
 import ScCard from "@/components/ScCard";
+
 
 export default {
   name: "HomePage",
   components: {
     ScCard
   },
-  // props:{
-  //   scData:{
-  //     type: Object,
-  //     require: true
-  //   }
-  // },
   data() {
     return {
-      searchText: '',
-      filterBlockChain: '',
-      filterClientType: '',
-      filterMarketModel: '',
-      blockchainTypes: [
-        {
-          id: 1,
-          blockchainName: '蚂蚁链',
-          backgroundColor: '#34A1FA'
-        },
-        {
-          id: 2,
-          blockchainName: '至信链',
-          backgroundColor: '#34A1FA'
-        },
-        {
-          id: 3,
-          blockchainName: '区块链',
-          backgroundColor: '#34A1FA'
-        },
-      ],
-
-      scDataList: [
-        {
-          id: 1,
-          title: 'iBox',
-          logo_img: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimage.downuc.com%2Fattachment%2Fsoft%2F2021%2F0724%2F170625_83177295.png&refer=http%3A%2F%2Fimage.downuc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661242128&t=4735344b73af47830eba8ea35ecabf1d',
-          remark: '很火，有二级市场，买到首发赚到',
-          blockchain: '区块链',
-          tag: ['H5', 'WEB', 'APP'],
-          click_num: 1956,
-          lick_num: 45,
-        },
-        {
-          id: 2,
-          title: '鲸探',
-          logo_img: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimage.downuc.com%2Fattachment%2Fsoft%2F2021%2F0724%2F170625_83177295.png&refer=http%3A%2F%2Fimage.downuc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661242128&t=4735344b73af47830eba8ea35ecabf1d',
-          remark: '很火，有二级市场，买到首发赚到',
-          blockchain: '区块链',
-          tag: ['H5', 'WEB'],
-          click_num: 4681,
-          lick_num: 694,
-        },
-        {
-          id: 3,
-          title: '数藏宇宙',
-          logo_img: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimage.downuc.com%2Fattachment%2Fsoft%2F2021%2F0724%2F170625_83177295.png&refer=http%3A%2F%2Fimage.downuc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661242128&t=4735344b73af47830eba8ea35ecabf1d',
-          remark: '很火，有二级市场，买到首发赚到',
-          blockchain: '区块链',
-          tag: ['H5', 'WEB', 'APP'],
-          click_num: 1956,
-          lick_num: 45,
-        },
-        {
-          id: 4,
-          title: 'iBox',
-          logo_img: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimage.downuc.com%2Fattachment%2Fsoft%2F2021%2F0724%2F170625_83177295.png&refer=http%3A%2F%2Fimage.downuc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661242128&t=4735344b73af47830eba8ea35ecabf1d',
-          remark: '很火，有二级市场，买到首发赚到',
-          blockchain: '区块链',
-          tag: ['H5', 'WEB'],
-          click_num: 1956,
-          lick_num: 45,
-        },
-      ]
+      queryParams: {
+        tagName: '',
+        blockchainList: [],
+        marketModel: '',
+        name: '',
+        pageNum: 1,
+        pageSize: 100
+      },
+      blockchainTypes: [],
+      marketModels: [],
+      clientNames: [],
+      platformList: []
+    }
+  },
+  watch: {
+    queryParams: {
+      handler() {
+        this.fetchPlatform()
+      },
+      deep: true,
+      flush: 'post'
     }
   },
   mounted() {
+    const _this = this;
+    //加载区块链数据
+    blockchainApi.PAGE({
+      pageNum: 1,
+      pageSize: 1000
+    }).then(res => {
+      _this.blockchainTypes = res.list
+    })
+    //加载标签数据
+    tagApi.TAG_NAMES(tagApi.FINAL.TAG_TYPE_CLIENT).then(res => {
+      console.log('标签数据')
+      _this.clientNames = res
+      console.log(_this.clientNames)
+    })
+    //加载数字藏品平台数据
+    this.fetchPlatform()
 
-    let notice = this.$refs['notice-list-ref'];
-    console.log(notice);
+    //加载数字藏品平台数据
+    platformApi.MARKET_MODEL_LIST().then(res => {
+      console.log(res)
+      this.marketModels = res
+    })
 
-
-    // setInterval(() => {
-    //     for (let i = 0; i < notice.children.length; i++) {
-    //         console.log(notice.children[i].style.top);
-    //         notice.children[i].style.top = (notice.children[i].style.top - 19) + 'px';
-    //     }
-    //     console.log(123456);
-    // }, 2000)
+  },
+  methods: {
+    fetchPlatform() {
+      const _this = this;
+      platformApi.PAGE(this.queryParams).then(res => {
+        console.log(res)
+        _this.platformList = res.list
+      })
+    }
   }
 }
 </script>
@@ -176,29 +151,7 @@ export default {
       font-size: 14px;
       font-weight: 300;
       color: #373737;
-      animation: topmove linear 2s infinite;
-      animation-play-state: running;
     }
-
-  @keyfarms topmove {
-    0% {
-      transform: translate3d(0, 0, 0);
-
-    }
-
-    50% {
-      transform: translate3d(10px, 0, 0);
-    }
-
-    100% {
-      transform: translate3d(19px, 0, 0);
-    }
-  }
-
-    /*@keyfarms topmove{*/
-    /*    0%{ top:0;}*/
-    /*    100%{ top:-19px;}*/
-    /*}*/
   }
 }
 
@@ -242,7 +195,7 @@ export default {
     .filter-select-bar {
       margin-top: 20px;
       margin-bottom: 20px;
-      margin-left: 18%;
+      margin-left: calc(50% - 240px);
 
       .filter-text {
         float: left;
@@ -260,7 +213,7 @@ export default {
         margin: 0 auto;
 
         .filter-select {
-          width: 100px;
+          width: 120px;
           height: 30px;
           border: none;
           border-radius: 4px;
@@ -281,7 +234,7 @@ export default {
           padding-top: 5px;
         }
 
-        /deep/.el-select__caret {
+        /deep/ .el-select__caret {
           color: #535353;
           line-height: 0;
 
@@ -296,8 +249,9 @@ export default {
 
 .sc-card-list {
   display: flex;
-  gap: 16px;
+  gap: 22px;
   flex-wrap: wrap;
+
   justify-content: center;
 }
 
