@@ -1,28 +1,29 @@
 <template>
-  <div class="sc-card">
+  <div class="sc-card" @click="handleBrowse">
     <div class="sc-sj">
       <div class="sj-item">
-        <icon class="el-icon-view"/>
+        <i class="el-icon-view"/>
         <span class="sj-data">{{ scData.browseNum }}</span>
       </div>
-      <div class="sj-item">
-        <icon class="iconfont icon-xihuan"/>
-        <span class="sj-data">{{ scData.lickNum }}</span>
+      <div class="sj-item" @click.stop="handleLike">
+        <i class="iconfont icon-xihuan" />
+        <span class="sj-data">{{ scData.likeNum }}</span>
       </div>
     </div>
     <div class="sc-header">
-      <a :href="scData.tagList[0].link">
-        <el-avatar shape="square" fit="cover" :src="scData.coverImg">
+      <a :href="scData.tagList[0] && scData.tagList[0].link ? scData.tagList[0].link : '#' ">
+        <el-avatar shape="square" fit="contain" :src="scData.coverImg">
           <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
         </el-avatar>
-<!--        <img :src="scData.coverImg" :alt="scData.name">-->
       </a>
       <div>
-        <a class="sc-title" :href="scData.tagList[0].link">{{ scData.name }}</a>
+        <a class="sc-title" :href="scData.tagList[0] && scData.tagList[0].link !== '' ? scData.tagList[0].link : '#'">{{
+            scData.name
+          }}</a>
         <div class="client-box">
           <a v-for="(client,index) in scData.tagList" :key="index" :href="client.link">
             <span class="client-item"
-                           :class="clientColor(client.tagName)">{{ client.tagName }}</span>
+                  :class="clientColor(client.tagType,client.tagName)">{{ client.tagName }}</span>
           </a>
           <!--          <span class="client-item client-h5">H5</span>-->
           <!--          <span class="client-item client-web">WEB</span>-->
@@ -31,16 +32,21 @@
     </div>
     <p class="sc-desc">{{ scData.remark }}</p>
 
-      <span class="sc-blockchain">
-        <a :href="scData.blockchainList[0].link">{{
-          scData.blockchainList.length > 0 ? scData.blockchainList[0].blockchain : '未知'
-        }}</a></span>
+    <span class="sc-blockchain" @click="blockchainClick">
+          <a v-if="blockchainItem" :href="blockchainItem.link">
+            {{ blockchainItem.blockchain }}
+          </a>
+          <span v-else>未知</span>
+      </span>
 
 
   </div>
 </template>
 
 <script>
+import api_tag from "@/api/api_tag";
+import api_shucang_platform from "@/api/api_shucang_platform";
+
 export default {
   name: "ScCard",
   props: {
@@ -51,6 +57,9 @@ export default {
   },
   data() {
     return {
+      isLike:false,
+      isBrowse:false,
+      blockchainItem: null
       // scData: {
       //   id: 1,
       //   title: 'iBox',
@@ -63,21 +72,64 @@ export default {
       // }
     }
   },
+  mounted() {
+    if (this.scData.blockchainList > 0) {
+      this.blockchainItem = this.$store.getters.getBlockChainById(this.scData.blockchainList[0])
+    }
+  },
   methods: {
-    clientColor(client) {
-      let cla = 'client-h5'
-      switch (client) {
-        case 'H5':
-          cla = 'client-h5';
+    clientColor(tagType, tagName) {
+      let cla = 'tag-client'
+      switch (tagType) {
+        case api_tag.FINAL.TAG_TYPE_BACKGROUND:
+          cla = 'tag-background';
           break
-        case 'WEB':
-          cla = 'client-web';
+        case api_tag.FINAL.TAG_TYPE_LITTLE_PROGRAM:
+          cla = 'tag-little-program';
           break
-        case 'APP':
-          cla = 'client-app';
+        case api_tag.FINAL.TAG_TYPE_CLIENT:
+          switch (tagName) {
+            case '网页端':
+              cla = 'tag-client-web';
+              break
+            case 'APP客户端':
+              cla = 'tag-client-app';
+              break
+            default:
+              cla = 'tag-client';
+          }
+          break
+        case api_tag.FINAL.TAG_TYPE_SERVER:
+          cla = 'tag-server';
           break
       }
       return cla
+    },
+    blockchainClick() {
+      if (this.blockchainItem && this.blockchainItem.link == null) {
+        this.$notify.info({
+          message: `${this.blockchainItem.blockchain}的地址暂未收录`,
+          position: 'top-right',
+          duration: 2000,
+          offset: 30
+        })
+      }
+    },
+    handleBrowse(){
+      if(!this.isBrowse){
+        api_shucang_platform.BROWSE(this.scData.id).then(() => {
+          this.isBrowse = true;
+          this.scData.browseNum+=1
+        })
+      }
+    },
+    handleLike(){
+      if(!this.isLike){
+        api_shucang_platform.LIKE(this.scData.id).then(() => {
+          this.isLike = true;
+          this.scData.likeNum+=1
+        })
+      }
     }
   }
 }
@@ -110,12 +162,15 @@ export default {
     justify-content: flex-end;
     padding: 8px 15px 0 15px;
 
-    icon {
+    i {
       padding: 0 3px;
       font-size: @sj-icon;
     }
   }
 
+  .sc-sj .sj-item:nth-child(2){
+    cursor: pointer;
+  }
 
   .sc-header {
     .sc-title {
@@ -124,14 +179,17 @@ export default {
       letter-spacing: 0em;
       color: #3D3D3D;
     }
-    .el-avatar{
+
+    /deep/ .el-avatar {
       float: left;
       margin: 0 10px;
       width: 55px;
-        height: 55px;
+      height: 55px;
+      background-color: rgba(0,0,0,0);
       //border-radius: 18px;
 
     }
+
     //img {
     //  float: left;
     //  width: 55px;
@@ -148,23 +206,36 @@ export default {
       gap: 8px;
     }
 
-    .client-h5 {
-      background: #59CB8C;
+    .tag-client-web {
+      background: #4bcc84;
       //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #CDF4DF;
       box-shadow: 0px 4px 12px 0px rgba(89, 203, 140, 0.4);
     }
 
-    .client-web {
-      background: #70C2F7;
-      //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #cde1f4;
-      box-shadow: 0px 4px 12px 0px rgba(112, 194, 247, 0.57);
+    .tag-client-app {
+      background: #f5a257;
+      //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #CDF4DF;
+      box-shadow: 0px 4px 12px 0px rgba(243, 161, 87, 0.52);
     }
 
-    .client-app {
+    .tag-background {
+      background: #0084ff;
+      //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #cde1f4;
+      box-shadow: 0px 4px 12px 0px rgba(0, 131, 253, 0.34);
+    }
+
+    .tag-server {
       background: #FF9F43;
       box-shadow: 0px 4px 12px 0px rgba(247, 216, 112, 0.57);
       //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #f4e4cd;
     }
+
+    .tag-little-program {
+      background: #3e4bf5;
+      box-shadow: 0px 4px 12px 0px rgba(62, 75, 243, 0.68);
+      //box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.1), inset 2px 2px 2px 0px #f4e4cd;
+    }
+
 
     .client-item {
       display: inline-block;
@@ -173,12 +244,15 @@ export default {
       padding: 0 4px;
       height: 20px;
       border-radius: 10px;
-
       line-height: 20px;
       color: #FFFFFF;
       font-size: 12px;
       text-align: center;
+      transition: all 0.3s ease-in-out;
     }
+  }
+  .client-item:hover{
+    padding: 0 6px;
   }
 
   .sc-desc {
@@ -188,8 +262,8 @@ export default {
     //white-space: nowrap;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-box-orient:vertical;
-    -webkit-line-clamp:2;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     font-size: 14px;
     color: #3D3D3D;
   }
@@ -201,6 +275,7 @@ export default {
     right: 0;
     padding: 0 15px;
     max-width: @sj-card-width;
+    min-width: 30px;
     box-sizing: border-box;
     //width: 78px;
     height: 26px;
@@ -213,6 +288,12 @@ export default {
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 0em;
+    cursor: pointer;
+
+    a {
+      color: #FFFFFF;
+
+    }
   }
 }
 </style>

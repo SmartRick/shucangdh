@@ -1,29 +1,29 @@
 <template>
   <el-container class="main-container">
-    <el-aside width="200px" class="side-box">
-      <div class="logo">LOGO</div>
-      <el-menu class="side-menu" :default-openeds="['1']" unique-opened>
-        <el-submenu index="1">
-          <template slot="title"><i class="el-icon-message"></i>数藏平台导航</template>
-          <el-menu-item class="side-menu-item" index="1-1">平台大全</el-menu-item>
-          <el-menu-item index="1-2">数藏工具</el-menu-item>
-        </el-submenu>
-        <el-menu-item index="2">
-          <template slot="title"><i class="el-icon-menu"></i>首发活动日历</template>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <template slot="title"><i class="el-icon-setting"></i>NFT新闻资讯</template>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <span slot="title">NFT合成工具</span>
-        </el-menu-item>
-        <el-menu-item index="5">
-          <i class="el-icon-setting"></i>
-          <span slot="title">平台收录</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
+<!--    <el-aside width="200px" class="side-box">-->
+<!--      <div class="logo">LOGO</div>-->
+<!--      <el-menu class="side-menu" :default-openeds="['1']" unique-opened>-->
+<!--        <el-submenu index="1">-->
+<!--          <template slot="title"><i class="el-icon-message"></i>数藏平台导航</template>-->
+<!--          <el-menu-item class="side-menu-item" index="1-1">平台大全</el-menu-item>-->
+<!--          <el-menu-item index="1-2">数藏工具</el-menu-item>-->
+<!--        </el-submenu>-->
+<!--        <el-menu-item index="2">-->
+<!--          <template slot="title"><i class="el-icon-menu"></i>首发活动日历</template>-->
+<!--        </el-menu-item>-->
+<!--        <el-menu-item index="3">-->
+<!--          <template slot="title"><i class="el-icon-setting"></i>NFT新闻资讯</template>-->
+<!--        </el-menu-item>-->
+<!--        <el-menu-item index="4">-->
+<!--          <i class="el-icon-setting"></i>-->
+<!--          <span slot="title">NFT合成工具</span>-->
+<!--        </el-menu-item>-->
+<!--        <el-menu-item index="5">-->
+<!--          <i class="el-icon-setting"></i>-->
+<!--          <span slot="title">平台收录</span>-->
+<!--        </el-menu-item>-->
+<!--      </el-menu>-->
+<!--    </el-aside>-->
 
     <el-main class="main-content">
       <router-view></router-view>
@@ -43,6 +43,11 @@ export default {
   name: 'Layout',
   components: {
     // SideMenu
+  },
+  // 这里做全局的数据预处理
+  mounted() {
+    // 加载区块链数据
+    this.$store.dispatch("loadBlockChainList")
   },
   props: {
     msg: String

@@ -15,13 +15,51 @@ const FINAL = {
     //小程序
     TAG_TYPE_LITTLE_PROGRAM: 4,
 }
+/**
+ *
+ * @type {[{code: number, name: string},{code: number, name: string},{code: number, name: string},{code: number, name: string}]}
+ */
+const TAG_TYPE = [
+    // 客户端类型
+    {
+        name: '客户端',
+        code: FINAL.TAG_TYPE_CLIENT
+    },
+    // 背景信息标签
+    {
+        name: '背景调查',
+        code: FINAL.TAG_TYPE_BACKGROUND
+    },
+    // 服务公众号
+    {
+        name: '服务公众号',
+        code: FINAL.TAG_TYPE_SERVER
+    },
+    // 小程序
+    {
+        name: '小程序',
+        code: FINAL.TAG_TYPE_LITTLE_PROGRAM
+    }
+]
+
+// 客户端类型
+const CLIENT_TYPE = {
+    WX_GZH: '微信公众号',
+    WX_XCX: '微信小程序',
+    BD_XCX: '百度小程序',
+    YSF_XCX: '云闪付小程序',
+    ZFB_XCX: '支付宝小程序',
+    APP: 'APP客户端',
+    H5: '网页端'
+}
 
 /**
  * 接口请求方法
  */
 export default {
     FINAL,
-
+    TAG_TYPE,
+    CLIENT_TYPE,
     ADD(data) {
         return request({
             url: modulePath,

@@ -1,67 +1,89 @@
 import request from './request'
-
 const modulePath = '/platform/'
 
-export function ADD(data) {
-    return request({
-        url: modulePath,
-        method: 'post',
-        data
-    })
-}
-
-export function UPDATE(data) {
-    return request({
-        url: modulePath,
-        method: 'put',
-        data
-    })
-}
-
-export function PAGE(data) {
-    return request({
-        url: modulePath + 'page',
-        method: 'post',
-        data
-    })
-}
-
-export function GET(id) {
-    return request({
-        url: modulePath + id,
-        method: 'get'
-    })
-}
-
-export function REMOVES(data) {
-    return request({
-        url: modulePath + 'removes',
-        method: 'delete',
-        data
-    })
-}
-
-export function REMOVE(id) {
-    return request({
-        url: modulePath + id,
-        method: 'delete'
-    })
-}
-
-export function MARKET_MODEL_LIST() {
-    return request({
-        url: modulePath + 'marketModel',
-        method: 'get'
-    })
-}
-
+const MARKET_MODULE = [
+    {
+        label: '二级市场',
+        value: '1'
+    },
+    {
+        label: '场外转赠',
+        value: '2'
+    },
+    {
+        label: '交易市场',
+        value: '3'
+    },
+    {
+        label: '官方宣发',
+        value: '4'
+    }
+]
 
 export default {
-    ADD,
-    UPDATE,
-    PAGE,
-    GET,
-    REMOVES,
-    REMOVE,
-    MARKET_MODEL_LIST
+    MARKET_MODULE,
+    ADD(data) {
+        return request({
+            url: modulePath,
+            method: 'post',
+            data
+        })
+    },
+    UPDATE(data) {
+        return request({
+            url: modulePath,
+            method: 'put',
+            data
+        })
+    },
+    PAGE(data) {
+        return request({
+            url: modulePath + 'page',
+            method: 'post',
+            data
+        })
+    },
+    GET(id) {
+        return request({
+            url: modulePath + id,
+            method: 'get'
+        })
+    },
+    REMOVES(data) {
+        return request({
+            url: modulePath + 'removes',
+            method: 'delete',
+            data
+        })
+    },
+    REMOVE(id) {
+        return request({
+            url: modulePath + id,
+            method: 'delete'
+        })
+    },
+    MARKET_MODEL_LIST() {
+        return request({
+            url: modulePath + 'marketModel',
+            method: 'get'
+        })
+    },
+    LIKE(id){
+        return request({
+            url: modulePath + 'like',
+            method: 'get',
+            params:{
+                scId: id
+            }
+        })
+    },
+    BROWSE(id){
+        return request({
+            url: modulePath + 'browse',
+            method: 'get',
+            params:{
+                scId: id
+            }
+        })
+    }
 }
